@@ -1,0 +1,10 @@
+/com/
+/config.properties
+/druid_jdbc.properties
+/generatorConfig.xml
+/jdbc.properties
+/log4j.properties
+/mappings/
+/spring-application.xml
+/spring-security.xml
+/spring-servlet.xml

@@ -81,7 +81,8 @@ $(function() {
 		$("#login_ok").attr("disabled", true).val('登陆中..');
 		var password = HMAC_SHA256_MAC($("#j_username").val(), $("#j_password").val());
 		$("#j_password").val(HMAC_SHA256_MAC($("#j_randomKey").val(), password));
-        return true;
+        window.location.href = 'index.html'; /*注意：生产环境时请删除此行*/
+        return false;
 	});
 });
 function genTimestamp(){
@@ -108,9 +109,7 @@ function choose_bg() {
 <div id="errorie"><div>您还在使用老掉牙的IE，请升级您的浏览器到 IE8以上版本 <a target="_blank" href="http://windows.microsoft.com/zh-cn/internet-explorer/ie-8-worldwide-languages">点击升级</a>&nbsp;&nbsp;强烈建议您更改换浏览器：<a href="http://down.tech.sina.com.cn/content/40975.html" target="_blank">谷歌 Chrome</a></div></div>
 <![endif]-->
 <div class="main_box">
-    <div class="setting">
-    	<a href="javascript:;" onclick="choose_bg();" title="更换背景"><span class="glyphicon glyphicon-th-large"></span></a>
-    </div>
+    <div class="setting"><a href="javascript:;" onclick="choose_bg();" title="更换背景"><span class="glyphicon glyphicon-th-large"></span></a></div>
 	<div class="login_box">
         <div class="login_logo">
             <img src="B-JUI/images/logo.png" >
@@ -123,13 +122,22 @@ function choose_bg() {
 	    </c:if>
         -->
         <div class="login_form">
-            ${error }
-    		<form action="${pageContext.servletContext.contextPath }/submitlogin.do" id="login_form" method="post">
+            <input type="hidden" value="${randomKey }" id="j_randomKey" />
+    		<form action="/submitlogin.do" id="login_form" method="post">
+                <input type="hidden" name="jfinal_token" value="${jfinal_token }" />
     			<div class="form-group">
-    				<label for="j_username" class="t">用户名：</label> <input id="j_username" value="" name="username" type="text" class="form-control x319 in" autocomplete="off">
+    				<label for="j_username" class="t">用户名1wwwww：</label> <input id="j_username" value="" name="username" type="text" class="form-control x319 in" autocomplete="off">
     			</div>
     			<div class="form-group">
-    				<label for="j_password" class="t">密　码：</label> <input id="j_password" value="" name="password" type="password" class="form-control x319 in">
+    				<label for="j_password" class="t">密　码：</label> <input id="j_password" value="" name="passwordhash" type="password" class="form-control x319 in">
+    			</div>
+    			<div class="form-group">
+    				<label for="j_captcha" class="t">验证码：</label> <input id="j_captcha" name="j_captcha" type="text" class="form-control x164 in">
+    				<img id="captcha_img" alt="点击更换" title="点击更换" src="B-JUI/images/captcha.jpeg" class="m">
+    			</div>
+    			<div class="form-group">
+                    <label class="t"></label>
+                    <label for="j_remember" class="m"><input id="j_remember" type="checkbox" value="true">&nbsp;记住登陆账号!</label>
     			</div>
     			<div class="form-group space">
                     <label class="t"></label>　　　

@@ -15,8 +15,7 @@
 		in (SELECT role_id FROM acc_role WHERE
 		acc_id=account.id) ) roleName,
 		password,
-		description,cityId,
-		(select name from city where id=cityId) cityName,
+		description,
 		state,
 		createTime
 	</sql>
@@ -25,7 +24,7 @@
 		id,
 		accountName,
 		password,
-		description,cityId,
+		description,
 		state,
 		createTime
 	</sql>
