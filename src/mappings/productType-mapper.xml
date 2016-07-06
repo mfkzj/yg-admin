@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yg.admin.mapper.ProductTypeMapper">
+
+	<!--mybatis ehcache缓存配置 -->
+	<!-- 以下两个<cache>标签二选一,第一个可以输出日志,第二个不输出日志 <cache type="org.mybatis.caches.ehcache.LoggingEhcache" 
+		/> -->
+	<!-- <cache type="org.mybatis.caches.ehcache.EhcacheCache"/> -->
+	<!-- 以下与实体类的中字段一致 -->
+	<sql id="selectId">
+		id,
+		pid,
+		name,
+		remark
+	</sql>
+
+	<sql id="selectId2">
+		id,
+		accountName,
+		password,
+		description,
+		state,
+		createTime
+	</sql>
+	
+	<!--resultType="Account" 每返回一条结果封装到Account里 -->
+	<select id="queryAll" resultType="productType">
+		select
+		<include refid="selectId" />
+		from product_type
+	</select>
+
+	<select id="isExist" resultType="Account" parameterType="String">
+		select
+		<include refid="selectId" />
+		from account
+		where accountName = #{accountName}
+	</select>
+
+	<!--resultType="Account" 每返回一条结果封装到Account里 -->
+	<select id="query" resultType="Account" parameterType="java.util.HashMap">
+		select
+		<include refid="selectId" />
+		from account
+		<where> 
+			<if test="t.accountName != null and t.accountName != ''">
+				accountName like '%${t.accountName}%'
+			</if><if test="t.state != null and t.state != ''">
+				state like '%${t.state}%'
+			</if>
+		</where>
+		order by state desc,id desc
+	</select>
+
+	<select id="queryNoMatch" resultType="Account" parameterType="java.util.HashMap">
+		select
+		a.id,
+		a.accountName,
+		a.password,
+		a.accountType,
+		a.description,
+		a.state,
+		a.createTime,
+		(SELECT dp.name from department dp where dp.id =
+		d.subdep_id) depName
+		from account a LEFT JOIN dep_account d on
+		a.id=d.account_id
+		<where>
+			<if test="t.accountName != null and t.accountName != ''">
+				accountName like '%${t.accountName}%'
+			</if>
+		</where>
+	</select>
+
+	<!-- 增加用户 -->
+	<insert id="add" parameterType="productType">
+		insert into product_type (name,remark,pid)
+		values (#{name},#{remark}, #{pid})
+	</insert>
+
+	<delete id="delete" parameterType="String">
+		delete from account where
+		id=#{id}
+	</delete>
+
+	<select id="getById" parameterType="String" resultType="Account">
+		select
+		<include refid="selectId" />
+		from account where id=#{id}
+	</select>
+
+	<select id="queryByAccountName" parameterType="String" resultType="Account">
+		select
+		<include refid="selectId2" />
+		from account where accountName=#{accountName}
+	</select>
+	
+	<update id="update" parameterType="Account">
+		update product_type
+		<set>
+			<if test="name != null and name != ''">
+				name=#{name},
+			</if>
+			<if test="pid != null and pid != ''">
+				pid=#{pid},
+			</if>
+			<if test="remark != null and remark != ''">
+				remark=#{remark},
+			</if>
+		</set>
+		where id=#{id}
+	</update>
+
+	<!-- 验证用户登陆 -->
+	<select id="countAccount" parameterType="Account" resultType="Account">
+		select
+		<include refid="selectId" />
+		from account where
+		accountName=#{accountName} and password=#{password} and state=1
+	</select>
+
+	<!-- 根据用户名查出id -->
+	<select id="querySingleAccount" parameterType="String"
+		resultType="Account">
+		select
+		<include refid="selectId" />
+		from account where accountName=#{accountName}
+	</select>
+</mapper>

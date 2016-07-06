@@ -7,7 +7,7 @@ import com.yg.admin.util.Common;
 
 @Controller
 @RequestMapping ("/account/")
-public class AccountController {
+public class AccountController extends BaseController{
 
 	@RequestMapping("list")
 	public String list(){

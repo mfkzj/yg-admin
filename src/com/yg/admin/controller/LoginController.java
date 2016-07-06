@@ -1,5 +1,7 @@
 package com.yg.admin.controller;
 
+import java.util.List;
+
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -16,8 +18,10 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.yg.admin.entity.Account;
+import com.yg.admin.entity.ProductType;
 import com.yg.admin.entity.UserLogin;
 import com.yg.admin.service.AccountService;
+import com.yg.admin.service.ProductTypeService;
 import com.yg.admin.service.UserLoginService;
 import com.yg.admin.util.Common;
 import com.yg.admin.util.Md5Tool;
@@ -34,6 +38,9 @@ public class LoginController {
 	
 	@Inject
 	private UserLoginService userLoginService;
+	
+	@Inject
+	private ProductTypeService ptService;
 
 	
 	@RequestMapping ("submitlogin")
@@ -90,6 +97,8 @@ public class LoginController {
 	 */
 	@RequestMapping ("index")
 	public String index(Model model){
+		List<ProductType> productTypes=ptService.queryAll(null);
+		model.addAttribute("productTypes", productTypes);
     	return Common.BACKGROUND_PATH+"/index";
 	}
 }

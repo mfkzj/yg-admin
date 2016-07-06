@@ -103,8 +103,8 @@
 <script type="text/javascript">
 $(function() {
     BJUI.init({
-        JSPATH       : 'BJUI/',         //[可选]框架路径
-        PLUGINPATH   : 'BJUI/plugins/', //[可选]插件路径
+        JSPATH       : 'B-JUI/BJUI/',         //[可选]框架路径
+        PLUGINPATH   : 'B-JUI/BJUI/plugins/', //[可选]插件路径
         loginInfo    : {url:'login_timeout.html', title:'登录', width:400, height:200}, // 会话超时后弹出登录对话框
         statusCode   : {ok:200, error:300, timeout:301}, //[可选]
         ajaxTimeout  : 50000, //[可选]全局Ajax请求超时时间(毫秒)
@@ -274,14 +274,18 @@ $(function(){
                 
                 
                 
+<li class="active"><a href="javascript:;" data-toggle="slidebar"><i class="fa fa-check-square-o"></i>商品管理</a>
+    <div class="items hide" data-noinit="true">
+        <ul id="bjui-hnav-tree1" class="ztree ztree_main" data-toggle="ztree" data-on-click="MainMenuClick" data-expand-all="true" data-faicon="check-square-o">
+            <c:forEach items="${productTypes}" var="type" varStatus="status">
+            <li data-id="${type.id }" data-pid="${type.pid }" data-faicon="folder-open-o" data-faicon-close="folder-o">${type.name }</li>
+            </c:forEach>
+        </ul>
+    </div>
+</li>                
                 
                 
-                
-                
-                
-                
-                
-<li class="active"><a href="javascript:;" data-toggle="slidebar"><i class="fa fa-check-square-o"></i>系统管理</a>
+<li ><a href="javascript:;" data-toggle="slidebar"><i class="fa fa-check-square-o"></i>系统管理</a>
     <div class="items hide" data-noinit="true">
         <ul id="bjui-hnav-tree1" class="ztree ztree_main" data-toggle="ztree" data-on-click="MainMenuClick" data-expand-all="true" data-faicon="check-square-o">
             <li data-id="11" data-pid="0" data-faicon="folder-open-o" data-faicon-close="folder-o">系统管理</li>
@@ -291,6 +295,7 @@ $(function(){
             <li data-id="113" data-pid="11" data-url="B-JUI/form-checkbox.html" data-tabid="table" data-faicon="check-square-o">复选、单选框</li>
             <li data-id="114" data-pid="11" data-url="B-JUI/form.html" data-tabid="form" data-faicon="list">表单综合演示</li>
             <li data-id="115" data-pid="11" data-url="${ctx }/account/list.do" data-tabid="form" data-faicon="list">管理员</li>
+            <li data-id="115" data-pid="11" data-url="${ctx }/productType/list.do" data-tabid="form" data-faicon="list">商品分类管理</li>
                       
             <li data-id="12" data-pid="0" data-faicon="folder-open-o" data-faicon-close="folder-o">动态功能</li>          
             <li data-id="125" data-pid="12" data-url="editor/add.jsp" data-tabid="form" data-faicon="list">在线编辑器</li>
